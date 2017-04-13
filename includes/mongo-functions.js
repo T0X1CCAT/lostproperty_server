@@ -11,5 +11,16 @@ module.exports = {
         console.log("Inserted a document into the categories collection.");
     });
 
-  }
-};
+  },
+
+  listCategories: function( db, callback){
+    var categories = [];
+    db.collection('categories').find().toArray(
+        function(err, results){
+            callback(results);
+        }  
+    );
+   
+   }
+
+};   
