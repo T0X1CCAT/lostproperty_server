@@ -3,7 +3,8 @@ var Schema = mongoose.Schema;
 
 // create a schema
 var categorySchema = new Schema({
-  name: String
+  name: String,
+  name_case_insensitive : String
 });
 
 // the schema is useless so far

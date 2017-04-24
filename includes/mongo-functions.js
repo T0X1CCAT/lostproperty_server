@@ -9,20 +9,18 @@ module.exports = {
     var categoryExists = false;
     //does the category already exist?
     
-    var findPromise = Category.find(req.body).exec();
+    var findPromise = Category.find({'name_case_insensitive': req.body.name.toLowerCase()}).exec();
 
     findPromise.then(function(category){
         console.log('then ', category);
         if(category.length>0){
-            console.log('return false 1');
             callback(true);
         }else{
             console.log('save');
-            var newCategory = new Category(req.body);
+            var newCategory = new Category({'name': req.body.name, 'name_case_insensitive': req.body.name.toLowerCase()});
             var savePromise = newCategory.save();
             console.log('save then', savePromise);
             savePromise.then(function(category){
-                console.log('return true 1');
                 callback(false);
             });
         }
@@ -33,7 +31,7 @@ module.exports = {
 
   listCategories: function( db, callback){
     var categories = [];
-    db.collection('categories').find().toArray(
+    db.collection('categories').find().sort({name_case_insensitive:1}).toArray(
         function(err, results){
             callback(results);
         }  
