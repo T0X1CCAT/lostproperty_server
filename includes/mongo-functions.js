@@ -1,5 +1,6 @@
 var assert = require('assert');
 var Category = require('./category');
+var Item = require('./item');
 
 module.exports = {
   insertCategory: function (req, resp, db, callback) {
