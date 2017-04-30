@@ -29,7 +29,15 @@ module.exports = {
 
     
   },
-
+  insertItem: function(req,resp, db, callback){
+        var newItem = new Item(req.body);
+        newItem.listedDate = new Date();
+        var savePromise = newItem.save();
+        console.log('save then', savePromise);
+        savePromise.then(function(category){
+            callback();
+        });  
+  },
   listCategories: function( db, callback){
     var categories = [];
     db.collection('categories').find().sort({name_case_insensitive:1}).toArray(

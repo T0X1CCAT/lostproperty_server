@@ -1,11 +1,18 @@
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // create a schema
 var itemSchema = new Schema({
-  name: String,
-  description: String,
-  category: Category});
+  itemName: String,
+  itemDescription: String,
+  itemCategory: { type: Schema.Types.ObjectId, ref: 'Category' },
+  itemLocation: String,
+  itemDate: Date,
+  listedDate: Date,
+  itemTime: String,
+  itemLostOrFound: String
+});
 
 // the schema is useless so far
 // we need to create a model using it
