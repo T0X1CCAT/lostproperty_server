@@ -1,9 +1,22 @@
 var assert = require('assert');
 var Category = require('./category');
+var User = require('./user');
 var Item = require('./item');
+var mongoose = require('mongoose');
+
+mongoose.connect(process.env.MONGO_DB_URL);
+//mongoose.connect('mongodb://localhost/lostproperty');
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection errro...'));
+
+db.once('open', function callback(){
+  console.log('lost property db opened');
+});
+
 
 module.exports = {
-  insertCategory: function (req, resp, db, callback) {
+  insertCategory: function (req, resp, callback) {
     console.log('tom');
     console.log(req.body);
 
@@ -29,7 +42,7 @@ module.exports = {
 
     
   },
-  insertItem: function(req,resp, db, callback){
+  insertItem: function(req,resp, callback){
         var newItem = new Item(req.body);
         newItem.listedDate = new Date();
         var savePromise = newItem.save();
@@ -38,7 +51,7 @@ module.exports = {
             callback();
         });  
   },
-  listCategories: function( db, callback){
+  listCategories: function(  callback){
     var categories = [];
     db.collection('categories').find().sort({name_case_insensitive:1}).toArray(
         function(err, results){
@@ -47,5 +60,6 @@ module.exports = {
     );
    
    }
+   
 
 };   
