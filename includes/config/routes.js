@@ -10,6 +10,11 @@ var auth = jwt({
 
 //var ctrlProfile = require('../controllers/profile');
 var ctrlAuth = require('../authentication');
+var ctrlLoggedIn = require('../controllers/loggedInCtrl');
+
+router.get('/api/category', auth, ctrlLoggedIn.loggedInPermissions);
+router.post('/api/category', auth, ctrlLoggedIn.loggedInPermissions);
+router.post('/api/place', auth, ctrlLoggedIn.loggedInPermissions);
 
 // profile
 //router.get('/api/profile', auth, ctrlProfile.profileRead);

@@ -58,18 +58,20 @@ module.exports.login = function(req, res) {
   //   });
   //   return;
   // }
-
+  console.log('login process');
   passport.authenticate('local', function(err, user, info){
     var token;
 
     // If Passport throws/catches an error
     if (err) {
+      console.log('error on login', err);
       res.status(404).json(err);
       return;
     }
 
     // If a user is found
     if(user){
+      console.log('user found', user);
       token = user.generateJwt();
       res.status(200);
       res.json({
@@ -77,6 +79,7 @@ module.exports.login = function(req, res) {
       });
     } else {
       // If user is not found
+      console.log('user not found');
       res.status(401).json(info);
     }
   })(req, res);
