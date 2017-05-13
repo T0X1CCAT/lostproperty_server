@@ -1,6 +1,7 @@
 var express = require('express');
 var mongoFunctions = require('../mongo-functions');
 var router = express.Router();
+
 var jwt = require('express-jwt');
 
 var auth = jwt({
@@ -11,10 +12,14 @@ var auth = jwt({
 //var ctrlProfile = require('../controllers/profile');
 var ctrlAuth = require('../authentication');
 var ctrlLoggedIn = require('../controllers/loggedInCtrl');
+var ctrlCategory = require('../controllers/categoryCtrl');
+var ctrlItem = require('../controllers/itemCtrl');
 
-router.get('/api/category', auth, ctrlLoggedIn.loggedInPermissions);
-router.post('/api/category', auth, ctrlLoggedIn.loggedInPermissions);
-router.post('/api/place', auth, ctrlLoggedIn.loggedInPermissions);
+router.get('/api/category', auth, ctrlCategory.getCategoryList);
+
+
+router.post('/api/category', auth, ctrlCategory.addCategory);
+router.post('/api/place', auth, ctrlItem.addItem);
 
 // profile
 //router.get('/api/profile', auth, ctrlProfile.profileRead);
@@ -22,42 +27,6 @@ router.post('/api/place', auth, ctrlLoggedIn.loggedInPermissions);
 // authentication
 router.post('/api/register', ctrlAuth.register);
 router.post('/api/login', ctrlAuth.login);
-
-
-router.get('/api/category', function(req, res){
-  var categories = mongoFunctions.listCategories( 
-    function(categories){
-      res.json(categories);
-    });
- 
-});
-router.post('/api/category', (req, res) => {
-  var ok={status:'ok'}; 
-  
-   mongoFunctions.insertCategory(req, res, function(exists){
-    if (exists){
-      ok = {status:'name_exists'};
-      res.json(ok);
-    }else{
-      ok = {status:'ok'};
-      res.json(ok);
-    }
-
-  });
-
-});
-
-router.post('/api/item', (req, res) => {
-  var ok={status:'ok'}; 
-  
-   mongoFunctions.insertItem(req, res, function(){
-    
-      ok = {status:'ok'};
-      res.json(ok);
-  
-  });
-
-});
 
 // router.get('/*', function(req, res){
 //   console.log('req * ');

@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
+var moment = require('moment');
 var Schema = mongoose.Schema;
 
 // create a schema
@@ -25,15 +26,16 @@ userSchema.methods.validPassword = function(password) {
 
 
 userSchema.methods.generateJwt = function() {
-  var expiry = new Date();
-  expiry.setDate(expiry.getDate() + 7);
-
+  var now = moment();
+  now.add(1,"h");
+  
+  console.log('gettime',now.valueOf() );
   return jwt.sign({
     _id: this._id,
     email: this.email,
     name: this.name,
-    exp: parseInt(expiry.getTime() / 1000),
-  }, "knightrider"); // DO NOT KEEP YOUR SECRET IN THE CODE!
+    exp: parseInt(now.valueOf() / 1000),
+  }, process.env.JWT_SECRET); // DO NOT KEEP YOUR SECRET IN THE CODE!
 };
 
 // the schema is useless so far
