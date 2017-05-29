@@ -15,11 +15,12 @@ var ctrlLoggedIn = require('../controllers/loggedInCtrl');
 var ctrlCategory = require('../controllers/categoryCtrl');
 var ctrlItem = require('../controllers/itemCtrl');
 
-router.get('/api/category', auth, ctrlCategory.getCategoryList);
+router.get('/api/category', ctrlCategory.getCategoryList);
 
 
 router.post('/api/category', auth, ctrlCategory.addCategory);
 router.post('/api/place', auth, ctrlItem.addItem);
+router.post('/api/findItem', ctrlItem.findItems);//no authentication required
 
 // profile
 //router.get('/api/profile', auth, ctrlProfile.profileRead);

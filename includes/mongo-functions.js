@@ -59,6 +59,35 @@ module.exports = {
         }  
     );
    
+   },
+   findItems: function(req, resp, callback){
+    
+    var query = {
+       
+    };
+    console.log('req.body.', req.body.data);
+    if (req.body.data.itemName) {
+        query.itemName =req.body.data.itemName;
+    }
+
+    if (req.body.data.itemCategory) {
+        query.itemCategory =req.body.data.itemCategory;
+    }
+
+    if (req.body.data.itemDate) {
+        query.itemDate =req.body.data.itemDate;
+    }
+
+    Item.find(query).populate('itemCategory').exec(function(err, results){
+            callback(results);
+        }
+    );
+
+    // db.collection('items').find({ 'itemName': req.body.itemName }).toArray(
+    //     function(err, results){
+    //         callback(results);
+    //     }
+    // );          
    }
    
 

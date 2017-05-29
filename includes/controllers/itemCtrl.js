@@ -23,5 +23,18 @@ module.exports.addItem = function(req, res) {
     });
 
    
-  } 
+  }
 };
+
+module.exports.findItems = function(req, res){
+
+
+    
+  mongoFunctions.findItems(req, res, 
+      function(items){
+          res.json(items);
+      });
+  
+
+   
+}; 
