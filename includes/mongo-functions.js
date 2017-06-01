@@ -42,14 +42,30 @@ module.exports = {
 
     
   },
-  insertItem: function(req,resp, callback){
+  insertItem: function(req,resp, user, callback){
         var newItem = new Item(req.body);
         newItem.listedDate = new Date();
+        console.log('user', user);
+        newItem.user = user;
         var savePromise = newItem.save();
         console.log('save then', savePromise);
-        savePromise.then(function(category){
+        savePromise.then(function(item){
             callback();
         });  
+  },
+  updateItem: function(req, resp, callback){
+
+    Item.update({ _id: req.body._id }, 
+        { $set: { 
+              itemName: req.body.itemName,
+              itemDescription: req.body.itemDescription,
+              itemCategory: req.body.itemCategory,
+              itemLocation: req.body.itemLocation,
+              itemDate: req.body.itemDate,
+              itemTime: req.body.itemTime,
+              itemLostOrFound: req.body.itemLostOrFound
+            }}, 
+        callback);
   },
   listCategories: function(  callback){
     var categories = [];
@@ -59,6 +75,24 @@ module.exports = {
         }  
     );
    
+   },
+   findItem: function(req, resp, callback){
+    console.log('id',req.query.id);
+    Item.findById(req.query.id).populate('itemCategory').exec(
+        function(err, results){
+            callback(results);
+        });
+    }
+   ,
+   updateItemLocated: function(req, resp, callback){
+    console.log('update id ', req.query.id);
+    Item.update({ _id: req.query.id }, { $set: { located: true }}, callback);    
+   },
+   deleteItem: function(req, resp, callback){
+    console.log('delete id ', req.query.id);
+    Item.findByIdAndRemove(req.query.id, function (err, todo) {
+        callback();    
+    });    
    },
    findItems: function(req, resp, callback){
     

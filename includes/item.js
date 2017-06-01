@@ -11,7 +11,9 @@ var itemSchema = new Schema({
   itemDate: Date,
   listedDate: Date,
   itemTime: String,
-  itemLostOrFound: String
+  itemLostOrFound: String,
+  user:{type:Schema.Types.ObjectId, ref:'User'},
+  located:Boolean //it has been found
 });
 
 // the schema is useless so far

@@ -20,7 +20,13 @@ router.get('/api/category', ctrlCategory.getCategoryList);
 
 router.post('/api/category', auth, ctrlCategory.addCategory);
 router.post('/api/place', auth, ctrlItem.addItem);
+router.post('/api/updateItem', auth, ctrlItem.updateItem);
+
+
+router.post('/api/itemLocated', auth, ctrlItem.itemLocated);
+router.get('/api/place', auth, ctrlItem.getItem);
 router.post('/api/findItem', ctrlItem.findItems);//no authentication required
+router.post('/api/deleteItem', auth, ctrlItem.deleteItem);
 
 // profile
 //router.get('/api/profile', auth, ctrlProfile.profileRead);
