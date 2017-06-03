@@ -45,6 +45,7 @@ module.exports = {
   insertItem: function(req,resp, user, callback){
         var newItem = new Item(req.body);
         newItem.listedDate = new Date();
+        newItem.located=false;
         console.log('user', user);
         newItem.user = user;
         var savePromise = newItem.save();
